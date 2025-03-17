@@ -1,6 +1,5 @@
 package com.example.todo.presentation.screens
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -19,7 +18,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.example.todo.data.models.NavItem
+import com.example.todo.domain.model.NavItem
 
 @Composable
 fun MainScreen() {

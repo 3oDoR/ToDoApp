@@ -1,8 +1,8 @@
-package com.example.todo.data.models
+package com.example.todo.domain.model
 
 import androidx.compose.ui.graphics.vector.ImageVector
 
-data class BottomNavigationItem(
+data class NavItem(
     val title: String,
     val icon: ImageVector
 )

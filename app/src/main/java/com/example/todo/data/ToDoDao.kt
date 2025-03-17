@@ -1,19 +1,32 @@
 package com.example.todo.data
 
+import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.todo.data.entity.ToDo
-import java.util.Date
+import androidx.room.Update
+import com.example.todo.domain.entities.ToDo
+import java.time.LocalDate
 
-interface ToDo {
+@Dao
+interface ToDoDao {
 
-    @Query("SELECT note, status FROM ToDo WHERE date = :date")
-    fun getNotesByDate(date: Date): List<ToDo>
+    @Query("SELECT * FROM ToDo WHERE date = :date")
+    suspend fun loadNotesByDate(date: LocalDate): List<ToDo>
+
+    @Query("SELECT * FROM ToDo WHERE date = :date ORDER BY isDone")
+    suspend fun getNotesByDateAndSortByIsDone(date: LocalDate): List<ToDo>
+
+    @Query("SELECT * FROM ToDo")
+    suspend fun getAllNotes(): List<ToDo>
 
     @Insert
-    fun insert(toDo: ToDo)
+    suspend fun insert(toDo: ToDo)
 
     @Delete
-    fun delete(toDo: ToDo)
+    suspend fun delete(toDo: ToDo)
+
+    @Update
+    suspend fun update(toDo: ToDo)
+
 }

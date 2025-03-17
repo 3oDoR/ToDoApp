@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.room.Room
 import com.example.todo.data.AppDatabase
-import com.example.todo.data.entities.ToDo
+import com.example.todo.domain.entities.ToDo
 import com.example.todo.presentation.screens.MainScreen
 import com.example.todo.presentation.screens.TodayScreen
 import com.example.todo.presentation.ui.theme.ToDoTheme
