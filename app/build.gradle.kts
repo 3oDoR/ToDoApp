@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -44,14 +46,15 @@ dependencies {
 
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.places) // Библиотека "Room"
-    ksp(libs.androidx.room.compiler) // Кодогенератор
+    implementation(libs.places)
+    ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
     implementation(libs.kotlinx.coroutines.android)
     annotationProcessor(libs.androidx.room.compiler)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.navigation.compose)
-
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 
 
     implementation(libs.androidx.core.ktx)

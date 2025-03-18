@@ -10,12 +10,7 @@ import kotlinx.coroutines.runBlocking
 class AddNoteUseCase(private val appDatabase: AppDatabase) {
 
 
-    fun execute(toDo: ToDo) {
-        runBlocking {
-            launch {
+    suspend fun execute(toDo: ToDo) {
                 appDatabase.todoDao().insert(toDo)
-            }
-        }
-
     }
 }

@@ -50,12 +50,21 @@ class TodayViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun addNewNote() {
-        if (titleState.isNotEmpty() && notesState.isNotEmpty()) {
-            addNoteUseCase.execute(ToDo(title = titleState, note = noteState, date = LocalDate.now()))
-            titleState = ""
-            noteState = ""
+        if (titleState.isNotEmpty() && noteState.isNotEmpty()) {
+            viewModelScope.launch(Dispatchers.IO) {
+                addNoteUseCase.execute(
+                    ToDo(
+                        title = titleState,
+                        note = noteState,
+                        date = LocalDate.now()
+                    )
+                )
+                titleState = ""
+                noteState = ""
+                updateNotesState()
+            }
         }
-        updateNotesState()
+
     }
 
     fun clearNote() {
@@ -64,10 +73,12 @@ class TodayViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun deleteNote(toDo: ToDo) {
+        println(toDo)
         viewModelScope.launch(Dispatchers.IO) {
             deleteNoteUseCase.execute(toDo)
+            updateNotesState()
         }
-        updateNotesState()
+
     }
 
     fun getCurrentLocalDate(): String {
@@ -80,5 +91,4 @@ class TodayViewModel(application: Application) : AndroidViewModel(application) {
             notesState = getNotesByDateAndSortByIsDone.execute(LocalDate.now())
         }
     }
-
 }
