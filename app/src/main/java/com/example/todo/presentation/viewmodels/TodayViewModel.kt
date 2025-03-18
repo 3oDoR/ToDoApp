@@ -15,29 +15,32 @@ import com.example.todo.domain.usecase.GetAllNotesUseCase
 import com.example.todo.domain.usecase.GetNotesByDateAndSortByIsDone
 import com.example.todo.domain.usecase.GetNotesByDateUseCase
 import com.example.todo.domain.usecase.UpdateToDoUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import javax.inject.Inject
 
-
-class TodayViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val db = Room.databaseBuilder(
-        application,
-        AppDatabase::class.java, "database-todo"
-    ).fallbackToDestructiveMigration().build()
+@HiltViewModel
+class TodayViewModel @Inject constructor(application: Application, val appDatabase: AppDatabase) : AndroidViewModel(application) {
 
     var notesState by mutableStateOf(listOf<ToDo>())
     var showDialog by mutableStateOf(false)
     var titleState by mutableStateOf("")
     var noteState by mutableStateOf("")
 
-    private val getNotesByDateUseCase = GetNotesByDateUseCase(db)
-    private val getNotesByDateAndSortByIsDone = GetNotesByDateAndSortByIsDone(db)
-    private val getAllNotesUseCase = GetAllNotesUseCase(db)
-    private val updateToDoUseCase = UpdateToDoUseCase(db)
-    private val addNoteUseCase = AddNoteUseCase(db)
-    private val deleteNoteUseCase = DeleteNoteUseCase(db)
+    @Inject
+    lateinit var getNotesByDateUseCase: GetNotesByDateUseCase
+    @Inject
+    lateinit var getNotesByDateAndSortByIsDone: GetNotesByDateAndSortByIsDone
+    @Inject
+    lateinit var  getAllNotesUseCase: GetAllNotesUseCase
+    @Inject
+    lateinit var  updateToDoUseCase: UpdateToDoUseCase
+    @Inject
+    lateinit var  addNoteUseCase: AddNoteUseCase
+    @Inject
+    lateinit var  deleteNoteUseCase: DeleteNoteUseCase
 
     init {
         updateNotesState()

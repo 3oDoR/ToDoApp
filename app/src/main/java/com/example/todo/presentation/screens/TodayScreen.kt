@@ -32,12 +32,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.todo.R
 import com.example.todo.presentation.viewmodels.TodayViewModel
 
 @Composable
-fun TodayScreen(modifier: Modifier, vm: TodayViewModel = viewModel()) {
+fun TodayScreen(modifier: Modifier, vm: TodayViewModel = hiltViewModel()) {
     if (vm.showDialog) {
         DialogWithTextFields()
 
@@ -123,7 +124,7 @@ fun TodayScreen(modifier: Modifier, vm: TodayViewModel = viewModel()) {
 
 
 @Composable
-fun DialogWithTextFields(vm: TodayViewModel = viewModel()) {
+fun DialogWithTextFields(vm: TodayViewModel = hiltViewModel()) {
     AlertDialog(
         modifier = Modifier.fillMaxWidth(),
         properties = DialogProperties(

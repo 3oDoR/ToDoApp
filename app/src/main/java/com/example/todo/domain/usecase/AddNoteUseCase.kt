@@ -2,15 +2,13 @@ package com.example.todo.domain.usecase
 
 import com.example.todo.data.AppDatabase
 import com.example.todo.domain.entities.ToDo
-
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import jakarta.inject.Inject
 
 
-class AddNoteUseCase(private val appDatabase: AppDatabase) {
+class AddNoteUseCase @Inject constructor(private val appDatabase: AppDatabase) {
 
 
     suspend fun execute(toDo: ToDo) {
-                appDatabase.todoDao().insert(toDo)
+        return appDatabase.todoDao().insert(toDo)
     }
 }
