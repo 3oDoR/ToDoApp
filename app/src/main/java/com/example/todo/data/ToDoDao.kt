@@ -20,6 +20,9 @@ interface ToDoDao {
     @Query("SELECT * FROM ToDo")
     suspend fun getAllNotes(): List<ToDo>
 
+    @Query("SELECT * FROM ToDo WHERE title LIKE :title")
+    suspend fun getNotesByTittleUseCase(title: String): List<ToDo>
+
     @Insert
     suspend fun insert(toDo: ToDo)
 

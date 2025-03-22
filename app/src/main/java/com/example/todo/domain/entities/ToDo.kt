@@ -9,7 +9,7 @@ import java.time.LocalDate
 data class ToDo(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
-    val title: String,
+    var title: String,
     val note: String,
     @TypeConverters(Converter::class)
     val date: LocalDate,

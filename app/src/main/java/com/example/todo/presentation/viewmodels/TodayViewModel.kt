@@ -1,12 +1,13 @@
 package com.example.todo.presentation.viewmodels
 
 import android.app.Application
+import android.content.Intent
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.Room
 import com.example.todo.data.AppDatabase
 import com.example.todo.domain.entities.ToDo
 import com.example.todo.domain.usecase.AddNoteUseCase
@@ -22,31 +23,42 @@ import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
-class TodayViewModel @Inject constructor(application: Application, val appDatabase: AppDatabase) : AndroidViewModel(application) {
+class TodayViewModel @Inject constructor(application: Application, val appDatabase: AppDatabase) :
+    AndroidViewModel(application) {
 
     var notesState by mutableStateOf(listOf<ToDo>())
     var showDialog by mutableStateOf(false)
     var titleState by mutableStateOf("")
     var noteState by mutableStateOf("")
+    var selectedDate by  mutableStateOf(LocalDate.now())
+    var showDatePicker by  mutableStateOf(false)
+    var isLongPressed by mutableStateOf(false)
+    var toDoItem by mutableStateOf(ToDo(title = "", note = "", date = LocalDate.now()))
 
     @Inject
     lateinit var getNotesByDateUseCase: GetNotesByDateUseCase
+
     @Inject
     lateinit var getNotesByDateAndSortByIsDone: GetNotesByDateAndSortByIsDone
+
     @Inject
-    lateinit var  getAllNotesUseCase: GetAllNotesUseCase
+    lateinit var getAllNotesUseCase: GetAllNotesUseCase
+
     @Inject
-    lateinit var  updateToDoUseCase: UpdateToDoUseCase
+    lateinit var updateToDoUseCase: UpdateToDoUseCase
+
     @Inject
-    lateinit var  addNoteUseCase: AddNoteUseCase
+    lateinit var addNoteUseCase: AddNoteUseCase
+
     @Inject
-    lateinit var  deleteNoteUseCase: DeleteNoteUseCase
+    lateinit var deleteNoteUseCase: DeleteNoteUseCase
 
     init {
         updateNotesState()
     }
 
     private fun updateNotesState() {
+
         viewModelScope.launch(Dispatchers.IO) {
             notesState = getNotesByDateAndSortByIsDone.execute(LocalDate.now())
         }
@@ -59,11 +71,10 @@ class TodayViewModel @Inject constructor(application: Application, val appDataba
                     ToDo(
                         title = titleState,
                         note = noteState,
-                        date = LocalDate.now()
+                        date = selectedDate
                     )
                 )
-                titleState = ""
-                noteState = ""
+                clearNote()
                 updateNotesState()
             }
         }
@@ -73,6 +84,7 @@ class TodayViewModel @Inject constructor(application: Application, val appDataba
     fun clearNote() {
         titleState = ""
         noteState = ""
+        selectedDate = LocalDate.now()
     }
 
     fun deleteNote(toDo: ToDo) {

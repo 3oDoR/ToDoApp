@@ -61,7 +61,7 @@ fun ContentScreen(selectedIndex: Int, modifier: Modifier) {
         when (selectedIndex) {
             0 -> TodayScreen(modifier)
             1 -> UpcomingScreen()
-            2 -> SearchScreen()
+            2 -> SearchScreen(modifier)
             3 -> ReviewScreen()
         }
 
